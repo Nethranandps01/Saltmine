@@ -1,30 +1,43 @@
-# Salt-Mine · IBC Space Function Mapper POC
+# Saltmine · IBC Compliance Auditor 2.5.2
 
-AI-powered replacement for the brittle keyword-based `spaceFunctionMapper.js`.
-Uses **Gemini 2.0 Flash** with chain-of-thought reasoning to classify real estate
-block instances into [IBC occupancy categories](https://codes.iccsafe.org/content/IBC2021P1).
+Saltmine is a premium, AI-powered compliance engine for International Building Code (IBC) audits. It replaces traditional keyword heuristics with **Gemini 2.0 Flash** to perform rigorous analysis of high-performance office designs.
+
+---
+
+## Key Features
+
+- **Premium Identity**: A sleek, white and deep green design system built for high-end professional use.
+- **Per-Floor Granular Audits**: Input square footage and occupancy for each floor independently to detect floor-specific violations.
+- **IBC Chapters 7 & 8 Focus**: 16+ specialized checks for Fire Protection (Shafts, Smoke Barriers) and Interior Finishes (Flame Spread, Radiant Flux).
+- **Intelligent Classification**: Chain-of-thought AI reasoning for complex space functions (e.g., "The Hive", "Boiler Room").
 
 ---
 
 ## Quick Start
 
+### 1. Requirements
+- Python 3.9+
+- Gemini API Key
+
+### 2. Installation
 ```bash
-# 1. Install dependency
-pip install google-generativeai
+# 1. Install dependencies
+pip install -r requirements.txt
 
-# 2. Set your Gemini API key
-export GEMINI_API_KEY="your-key-here"
-
-# 3. Run the legacy heuristic mapper (baseline)
-python legacy_mapper.py
-
-# 4. Run the AI mapper
-python smart_mapper.py
-
-# 5. Generate comparison report
-python compare_mappers.py
-open report.html
+# 2. Set your Gemini API key in .env
+echo "GEMINI_API_KEY=your_key_here" > .env
 ```
+
+### 3. Launching the App
+```bash
+# Start Backend
+python3 -m uvicorn api.main:app --port 8000 --reload
+
+# Start Frontend
+python3 -m http.server 3000 --directory frontend
+```
+
+Visit **[http://localhost:3000](http://localhost:3000)** to execute your first audit.
 
 ---
 
@@ -32,49 +45,22 @@ open report.html
 
 ```
 salt-mine/
-├── ibc_rules.json              # IBC config: 8 categories, load factors, hints
-├── test_cases.json             # 25 test cases with ground truth labels
-├── smart_mapper.py             # 🤖 AI mapper (Gemini 2.0 Flash, chain-of-thought)
-├── legacy_mapper.py            # 📜 Legacy heuristic mapper (keyword matching)
-├── compare_mappers.py          # 📊 Comparison engine + HTML report generator
-├── smart_mapper_results.json   # [generated] AI mapper output
-├── legacy_mapper_results.json  # [generated] Legacy mapper output
-└── report.html                 # [generated] Visual comparison report
+├── api/
+│   └── main.py          # FastAPI Backend (Audit Engine)
+├── frontend/
+│   └── index.html       # Ultra-premium React-based UI
+├── ibcl_rules.json      # IBC Baseline Configuration
+├── requirements.txt     # Backend Dependencies
+└── README.md            # Platform Documentation
 ```
 
 ---
 
-## The 8 IBC Occupancy Categories
+## Why Saltmine?
 
-| Category | Load Factor | Method | Typical Use |
-|---|---|---|---|
-| Business Areas | 150 | Gross | Open-plan desks, cubicles |
-| Concentrated Business | 50 | Gross | Call centers, trading floors |
-| Assembly – Unconcentrated | 15 | Net | Meeting rooms with tables |
-| Assembly – Concentrated | 7 | Net | Auditoriums, town halls |
-| Storage | 300 | Gross | IT closets, utility rooms |
-| Mercantile | 60 | Gross | Showrooms, sales floors |
-| Kitchens | 200 | Gross | Commercial food prep only |
-| Classroom | 20 | Net | Education/instruction spaces |
+Traditional mappers fail on creative names and complex spatial densities. Saltmine evaluates **Name + Enclosure + Capacity + Area + Density** holistically, preventing:
+- **False Passes** → Dangerous occupancy overloads.
+- **False Fails** → Wasted space and unnecessary build costs.
 
 ---
-
-## Interactive Mode
-
-Classify a single room from the command line:
-
-```bash
-python smart_mapper.py --single
-```
-
----
-
-## Why This Matters
-
-The legacy mapper fails on creative room names like "Mars", "The Hive", "Boiler Room".
-A wrong IBC mapping leads to:
-- **False Pass** → dangerous occupancy overload  
-- **False Fail** → wasted space and unnecessary cost
-
-The AI mapper evaluates **Name + Enclosure + Capacity + Area + Density together**,
-achieving significantly higher accuracy on the hard (creative name) test cases.
+© 2026 Saltmine IBC Compliance.
