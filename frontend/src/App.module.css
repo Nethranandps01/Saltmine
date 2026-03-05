@@ -1,0 +1,112 @@
+.layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 28px 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 22px 28px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+}
+
+.logoIcon {
+    font-size: 22px;
+}
+
+.logoText {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 10px;
+    flex: 1;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dim);
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.navItem:hover {
+    background: var(--surface2);
+    color: var(--text);
+}
+
+.navActive {
+    background: var(--accent)18 !important;
+    color: var(--accent2) !important;
+    font-weight: 600;
+}
+
+.sidebarFooter {
+    padding: 20px 20px 0;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+.ibcBadge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    background: var(--accent)15;
+    border: 1px solid var(--accent)30;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.aiBadge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--dim);
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background: var(--pass);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* ── MAIN ── */
+.main {
+    background: var(--bg);
+    overflow-y: auto;
+    min-height: 100vh;
+}

@@ -1,0 +1,290 @@
+{
+  "version": "1.0",
+  "source": "International Building Code (IBC) Table 1004.5",
+  "description": "The 8 occupancy load categories used for test-fit compliance analysis. Load factor = sq ft per occupant.",
+  "categories": [
+    {
+      "id": "business_areas",
+      "category": "Business Areas",
+      "load_factor": 150,
+      "area_method": "gross",
+      "description": "General office work at desks, cubicles, or workstations. The default for typical open-plan office space.",
+      "enclosure_hint": "open",
+      "density_hint": "low",
+      "typical_names": [
+        "Open Office",
+        "Workstation Area",
+        "Bullpen",
+        "Pod Area",
+        "General Office",
+        "Work Area",
+        "Desk Area",
+        "Team Space"
+      ],
+      "disqualifiers": [
+        "high density seating without desks",
+        "food preparation",
+        "merchandise display",
+        "assembly or audience seating"
+      ]
+    },
+    {
+      "id": "concentrated_business",
+      "category": "Concentrated Business",
+      "load_factor": 50,
+      "area_method": "gross",
+      "description": "High-density office zones where occupants are packed tightly, such as call centers, trading floors, or hotdesk farms.",
+      "enclosure_hint": "open",
+      "density_hint": "high",
+      "typical_names": [
+        "Call Center",
+        "Trading Floor",
+        "Hotdesk Zone",
+        "The Hive",
+        "Operations Hub",
+        "Command Center",
+        "Flex Floor",
+        "Dense Pod"
+      ],
+      "disqualifiers": [
+        "private offices",
+        "meeting rooms with tables",
+        "storage",
+        "food"
+      ]
+    },
+    {
+      "id": "assembly_unconcentrated",
+      "category": "Assembly – Unconcentrated",
+      "load_factor": 15,
+      "area_method": "net",
+      "description": "Assembly spaces with tables and chairs — meeting rooms, boardrooms, conference rooms, collaboration areas. People are seated at tables.",
+      "enclosure_hint": "closed",
+      "density_hint": "medium",
+      "typical_names": [
+        "Conference Room",
+        "Meeting Room",
+        "Boardroom",
+        "War Room",
+        "Mars",
+        "Jupiter",
+        "Orion",
+        "Nexus",
+        "Think Tank",
+        "Innovation Lab",
+        "Breakout Room",
+        "Collaboration Room",
+        "Strategy Room",
+        "The Bridge"
+      ],
+      "disqualifiers": [
+        "standing-only or auditorium seating without tables",
+        "open plan without enclosure",
+        "food prep"
+      ]
+    },
+    {
+      "id": "assembly_concentrated",
+      "category": "Assembly – Concentrated",
+      "load_factor": 7,
+      "area_method": "net",
+      "description": "Assembly spaces with fixed seating or standing, without tables — training rooms in lecture style, town halls, auditoriums.",
+      "enclosure_hint": "closed",
+      "density_hint": "high",
+      "typical_names": [
+        "Training Room",
+        "Town Hall",
+        "Auditorium",
+        "Lecture Hall",
+        "All-Hands Room",
+        "Amphitheater",
+        "Lounge (standing)"
+      ],
+      "disqualifiers": [
+        "tables present (use Unconcentrated instead)",
+        "open plan",
+        "food prep"
+      ]
+    },
+    {
+      "id": "storage",
+      "category": "Storage",
+      "load_factor": 300,
+      "area_method": "gross",
+      "description": "Non-occupied utility and storage spaces — IT closets, server rooms, supply rooms, filing rooms, janitor closets.",
+      "enclosure_hint": "closed",
+      "density_hint": "low",
+      "typical_names": [
+        "IT Closet",
+        "Server Room",
+        "Storage Room",
+        "Supply Room",
+        "Filing Room",
+        "Boiler Room",
+        "Utility Room",
+        "MDF Room",
+        "IDF Closet",
+        "Telecom Room",
+        "Janitor Closet"
+      ],
+      "disqualifiers": [
+        "regularly occupied by people performing work tasks",
+        "food",
+        "merchandise"
+      ]
+    },
+    {
+      "id": "mercantile",
+      "category": "Mercantile",
+      "load_factor": 60,
+      "area_method": "gross",
+      "description": "Showrooms, display floors, retail or sales areas where products are displayed for sale or demonstration.",
+      "enclosure_hint": "open",
+      "density_hint": "medium",
+      "typical_names": [
+        "Showroom",
+        "Sales Floor",
+        "Product Demo Area",
+        "Retail Zone",
+        "Exhibition Area",
+        "Display Floor"
+      ],
+      "disqualifiers": [
+        "no merchandise or product display",
+        "food prep",
+        "standard office work"
+      ]
+    },
+    {
+      "id": "kitchens",
+      "category": "Kitchens",
+      "load_factor": 200,
+      "area_method": "gross",
+      "description": "Principal food preparation and cooking areas — commercial kitchens, cafeteria kitchens, catering prep areas. Does NOT include breakrooms with only a microwave.",
+      "enclosure_hint": "closed",
+      "density_hint": "low",
+      "typical_names": [
+        "Commercial Kitchen",
+        "Cafeteria Kitchen",
+        "Prep Kitchen",
+        "Catering Kitchen",
+        "Main Kitchen"
+      ],
+      "disqualifiers": [
+        "breakroom or pantry with no cooking equipment",
+        "dining area (use Assembly instead)"
+      ]
+    },
+    {
+      "id": "classroom",
+      "category": "Classroom",
+      "load_factor": 20,
+      "area_method": "net",
+      "description": "Dedicated education and instruction spaces with student seating at desks or tables — classrooms, labs, seminar rooms.",
+      "enclosure_hint": "closed",
+      "density_hint": "medium",
+      "typical_names": [
+        "Classroom",
+        "Computer Lab",
+        "Science Lab",
+        "Seminar Room",
+        "Instruction Room",
+        "Learning Lab",
+        "Teaching Studio"
+      ],
+      "disqualifiers": [
+        "no formal instruction or curriculum",
+        "corporate meeting rooms without educational use",
+        "open plan"
+      ]
+    }
+  ],
+  "plumbing_table": {
+    "source": "IBC Table 2902.1 — Minimum Number of Required Plumbing Fixtures",
+    "occupancy_type": "Business (B)",
+    "notes": "Assume 50/50 male/female split unless specified. Occupant load is per floor.",
+    "fixtures": {
+      "water_closets": {
+        "male": {
+          "formula": "1 per 50 occupants",
+          "ratio": 50
+        },
+        "female": {
+          "formula": "1 per 25 occupants",
+          "ratio": 25
+        },
+        "combined_approx": {
+          "formula": "1 per 33 occupants (combined)",
+          "ratio": 33
+        },
+        "minimum": 1
+      },
+      "lavatories": {
+        "formula": "1 per 40 occupants",
+        "ratio": 40,
+        "minimum": 1
+      },
+      "drinking_fountains": {
+        "formula": "1 per 100 occupants",
+        "ratio": 100,
+        "minimum": 1,
+        "note": "ADA requires at least 1 accessible and 1 standard height per installation point"
+      },
+      "service_sinks": {
+        "formula": "1 per floor minimum",
+        "ratio": null,
+        "minimum": 1
+      }
+    }
+  },
+  "egress_table": {
+    "source": "IBC Chapter 10 — Means of Egress (Sections 1005.1, 1006.2, 1006.3)",
+    "occupancy_type": "Business (B)",
+    "exit_count_thresholds": [
+      {
+        "max_occupants": 49,
+        "min_exits": 1,
+        "note": "Single exit allowed"
+      },
+      {
+        "max_occupants": 499,
+        "min_exits": 2,
+        "note": "Two exits required"
+      },
+      {
+        "max_occupants": 999,
+        "min_exits": 3,
+        "note": "Three exits required"
+      },
+      {
+        "max_occupants": 9999,
+        "min_exits": 4,
+        "note": "Four exits required"
+      }
+    ],
+    "door_width": {
+      "formula": "0.2 inches per occupant",
+      "factor_inches_per_occupant": 0.2,
+      "minimum_clear_inches": 32,
+      "ibc_ref": "IBC 1005.1"
+    },
+    "corridor_width": {
+      "over_49_occupants_inches": 44,
+      "under_50_occupants_inches": 36,
+      "ibc_ref": "IBC 1005.1"
+    },
+    "travel_distance": {
+      "sprinklered_ft": 300,
+      "unsprinklered_ft": 200,
+      "to_nearest_exit_ft": 100,
+      "ibc_ref": "IBC 1017.2",
+      "note": "Business occupancy B. Measured along path of travel."
+    },
+    "stair_width": {
+      "formula": "0.3 inches per occupant",
+      "factor_inches_per_occupant": 0.3,
+      "minimum_inches": 44,
+      "ibc_ref": "IBC 1005.1"
+    }
+  }
+}

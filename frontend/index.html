@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saltmine · IBC Compliance AI</title>
+    <!-- React & Tailwind via CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        bg: '#fcfdfa',
+                        surface: '#ffffff',
+                        accent: '#10b981', // Vibrant Green
+                        primary: '#064e3b', // Deep Green
+                        pass: '#10b981',
+                        fail: '#ef4444',
+                        warn: '#f59e0b',
+                        critical: '#dc2626',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer base {
+            body { @apply bg-bg text-slate-800 antialiased; }
+        }
+        @layer components {
+            .btn-primary { 
+                @apply bg-primary text-white font-bold py-3 px-8 rounded-xl
+                shadow-lg shadow-primary/10 hover:-translate-y-0.5 hover:shadow-primary/20 transition-all duration-200;
+            }
+            .glass-card {
+                @apply bg-surface border border-slate-200/60 rounded-2xl shadow-sm;
+            }
+            .input-field {
+                @apply w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2 focus:ring-2 focus:ring-accent/50 focus:border-accent outline-none transition-all;
+            }
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeUp 0.5s ease forwards; }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function App() {
+            const [view, setView] = useState('form');
+            const [loading, setLoading] = useState(false);
+            const [report, setReport] = useState(null);
+            const [error, setError] = useState(null);
+
+            const handleSubmit = async (formData) => {
+                setLoading(true);
+                setError(null);
+
+                // Construct total occupancies for backend compatibility if floors_data is used
+                const total_perm = formData.floors_data.reduce((sum, f) => sum + f.permanent_occupancy, 0);
+                const total_temp = formData.floors_data.reduce((sum, f) => sum + f.temporary_occupancy, 0);
+
+                const payload = {
+                    ...formData,
+                    permanent_occupancy: formData.num_floors > 1 ? total_perm : formData.permanent_occupancy,
+                    temporary_occupancy: formData.num_floors > 1 ? total_temp : formData.temporary_occupancy,
+                    total_headcount: (formData.num_floors > 1 ? total_perm + total_temp : formData.permanent_occupancy + formData.temporary_occupancy)
+                };
+
+                try {
+                    const res = await fetch('http://127.0.0.1:8000/api/compliance', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                    });
+                    if (!res.ok) throw new Error('API Error');
+                    const data = await res.json();
+                    setReport(data);
+                    setView('report');
+                } catch (e) {
+                    setError('Failed to connect to backend. Ensure FastAPI is running.');
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            return (
+                <div className="flex min-h-screen">
+                    <aside className="w-64 bg-primary text-white flex flex-col p-6 sticky top-0 h-screen shadow-2xl">
+                        <div className="flex items-center gap-3 mb-8 pb-6 border-b border-white/10">
+                            <div className="w-8 h-8 flex items-center justify-center bg-accent text-primary rounded-lg font-black italic">S</div>
+                            <span className="font-extrabold text-2xl tracking-tighter">Saltmine</span>
+                        </div>
+                        <nav className="flex-1 space-y-1">
+                            <NavItem label="Compliance Check" active onClick={() => setView('form')} />
+                        </nav>
+                        <div className="mt-auto pt-6 border-t border-white/10 space-y-3">
+                            <div className="text-[10px] font-bold text-accent px-2 py-0.5 bg-accent/10 border border-accent/30 rounded inline-block uppercase tracking-widest">IBC 2021</div>
+                            <div className="flex items-center gap-2 text-[10px] text-white/50 uppercase font-bold tracking-widest">
+                                <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+                                System Active
+                            </div>
+                        </div>
+                    </aside>
+
+                    <main className="flex-1 overflow-y-auto">
+                        {view === 'form' ? (
+                            <ProjectForm onSubmit={handleSubmit} loading={loading} error={error} />
+                        ) : (
+                            <ComplianceReport data={report} onBack={() => setView('form')} />
+                        )}
+                    </main>
+                </div>
+            );
+        }
+
+        function NavItem({ label, active, onClick }) {
+            return (
+                <div
+                    onClick={onClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all ${active ? 'bg-accent text-primary font-bold shadow-lg shadow-black/10' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}>
+                    <span className="text-sm uppercase tracking-wider">{label}</span>
+                </div>
+            );
+        }
+
+        function ProjectForm({ onSubmit, loading, error }) {
+            const [form, setForm] = useState({
+                project_name: 'Core Office Hub',
+                num_floors: 1,
+                sqft_per_floor: 12000,
+                permanent_occupancy: 80,
+                temporary_occupancy: 20,
+                is_sprinklered: true,
+                floors_data: []
+            });
+
+            useEffect(() => {
+                if (form.num_floors > 1) {
+                    const newFloors = Array.from({ length: form.num_floors }, (_, i) => ({
+                        floor_id: i + 1,
+                        sqft: form.sqft_per_floor,
+                        permanent_occupancy: Math.ceil(form.permanent_occupancy / form.num_floors),
+                        temporary_occupancy: Math.ceil(form.temporary_occupancy / form.num_floors)
+                    }));
+                    setForm(prev => ({ ...prev, floors_data: newFloors }));
+                } else {
+                    setForm(prev => ({ ...prev, floors_data: [] }));
+                }
+            }, [form.num_floors]);
+
+            const handleChange = (e) => {
+                const { name, value, type, checked } = e.target;
+                setForm(prev => ({
+                    ...prev,
+                    [name]: type === 'checkbox' ? checked : (type === 'number' ? Number(value) : value)
+                }));
+            };
+
+            const handleFloorChange = (index, field, value) => {
+                const updatedFloors = [...form.floors_data];
+                updatedFloors[index][field] = Number(value);
+                setForm(prev => ({ ...prev, floors_data: updatedFloors }));
+            };
+
+            return (
+                <div className="max-w-4xl mx-auto p-12 animate-fade-up">
+                    <header className="mb-12">
+                        <div className="inline-block px-3 py-1 bg-accent/10 border border-accent/20 text-accent text-[10px] font-bold uppercase tracking-widest rounded-full mb-4">Focus: IBC 7 & 8</div>
+                        <h1 className="text-5xl font-black tracking-tight mb-2 text-primary uppercase">IBC <span className="text-accent italic">Compliance</span> Auditor</h1>
+                        <p className="text-slate-500 font-medium">Rigorous fire and finish safety analysis for high-performance office designs.</p>
+                    </header>
+
+                    <form className="space-y-8" onSubmit={(e) => { e.preventDefault(); onSubmit(form); }}>
+                        <Section title="General Building Specs">
+                            <div className="grid grid-cols-2 gap-6">
+                                <Field label="Project Name">
+                                    <input name="project_name" value={form.project_name} onChange={handleChange} className="input-field" />
+                                </Field>
+                                <Field label="Is Sprinklered (IBC 903.2)">
+                                    <div className="flex items-center h-full">
+                                        <label className="flex items-center gap-3 cursor-pointer p-2 bg-slate-50 rounded-lg border border-slate-200">
+                                            <input type="checkbox" name="is_sprinklered" checked={form.is_sprinklered} onChange={handleChange} className="w-5 h-5 accent-accent" />
+                                            <span className="text-sm font-bold text-primary italic">Sprinkler Active</span>
+                                        </label>
+                                    </div>
+                                </Field>
+                            </div>
+                            <div className="grid grid-cols-2 gap-6 mt-6">
+                                <Field label="Number of Floors">
+                                    <input type="number" name="num_floors" min="1" max="20" value={form.num_floors} onChange={handleChange} className="input-field" />
+                                </Field>
+                                {form.num_floors === 1 && (
+                                    <Field label="Sqft (Single Floor)">
+                                        <input type="number" name="sqft_per_floor" value={form.sqft_per_floor} onChange={handleChange} className="input-field" />
+                                    </Field>
+                                )}
+                            </div>
+                        </Section>
+
+                        {form.num_floors > 1 && (
+                            <Section title="Floor-by-Floor Breakdown">
+                                <div className="space-y-6">
+                                    {form.floors_data.map((floor, idx) => (
+                                        <div key={idx} className="p-8 bg-slate-50 border border-slate-200 rounded-3xl">
+                                            <div className="text-xl font-black text-primary mb-6 flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm">{floor.floor_id}</div>
+                                                Floor {floor.floor_id}
+                                            </div>
+                                            <div className="grid grid-cols-3 gap-6">
+                                                <Field label="Sqft Area">
+                                                    <input type="number" value={floor.sqft} onChange={(e) => handleFloorChange(idx, 'sqft', e.target.value)} className="input-field bg-white" />
+                                                </Field>
+                                                <Field label="Perm. Occupants">
+                                                    <input type="number" value={floor.permanent_occupancy} onChange={(e) => handleFloorChange(idx, 'permanent_occupancy', e.target.value)} className="input-field bg-white" />
+                                                </Field>
+                                                <Field label="Temp. Occupants">
+                                                    <input type="number" value={floor.temporary_occupancy} onChange={(e) => handleFloorChange(idx, 'temporary_occupancy', e.target.value)} className="input-field bg-white" />
+                                                </Field>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Section>
+                        )}
+
+                        {form.num_floors === 1 && (
+                            <Section title="Occupancy Metrics">
+                                <div className="grid grid-cols-2 gap-6 mb-6">
+                                    <Field label="Permanent Occupants">
+                                        <input type="number" name="permanent_occupancy" value={form.permanent_occupancy} onChange={handleChange} className="input-field" />
+                                    </Field>
+                                    <Field label="Temporary Occupants">
+                                        <input type="number" name="temporary_occupancy" value={form.temporary_occupancy} onChange={handleChange} className="input-field" />
+                                    </Field>
+                                </div>
+                            </Section>
+                        )}
+
+                        {error && <div className="p-4 bg-fail/5 border border-fail/20 text-fail text-sm font-bold rounded-xl animate-shake"> {error}</div>}
+
+                        <button type="submit" disabled={loading} className="w-full btn-primary disabled:opacity-50 h-16 text-xl uppercase tracking-widest italic">
+                            {loading ? 'Analyzing Designs...' : 'Execute Compliance Audit'}
+                        </button>
+                    </form>
+                </div>
+            );
+        }
+
+        function Section({ title, children }) {
+            return (
+                <div className="glass-card p-8 hover:shadow-xl transition-shadow">
+                    <h2 className="text-xs font-black uppercase tracking-widest text-accent mb-6 flex items-center gap-3">
+                        <span className="w-1.5 h-1.5 bg-accent rounded-full"></span>
+                        {title}
+                    </h2>
+                    {children}
+                </div>
+            );
+        }
+
+        function Field({ label, children }) {
+            return (
+                <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">{label}</label>
+                    {children}
+                </div>
+            );
+        }
+
+        function ComplianceReport({ data, onBack }) {
+            const { findings, summary, project } = data;
+            const totalIssues = summary.critical_count + summary.warning_count + summary.advisory_count;
+
+            return (
+                <div className="p-12 animate-fade-up max-w-5xl mx-auto">
+                    <button onClick={onBack} className="text-slate-400 hover:text-primary mb-8 text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all">← Back to Designs</button>
+
+                    <div className="flex justify-between items-end mb-12">
+                        <div>
+                            <div className="text-accent text-xs font-black uppercase tracking-widest mb-2 italic">Official Audit Result</div>
+                            <h1 className="text-5xl font-black tracking-tight text-primary uppercase">Compliance <span className="text-accent">Findings</span></h1>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-4xl font-black text-primary">{totalIssues}</div>
+                            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Total Violations</div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-6 mb-12">
+                        <StatCard label="Critical" count={summary.critical_count} color="text-critical" borderColor="border-critical" />
+                        <StatCard label="Warning" count={summary.warning_count} color="text-warn" borderColor="border-warn" />
+                        <StatCard label="Advisory" count={summary.advisory_count} color="text-slate-500" borderColor="border-slate-300" />
+                    </div>
+
+                    <div className="space-y-6">
+                        {findings.map((f, i) => (
+                            <div key={i} className="glass-card p-6 border-l-8 hover:translate-x-1 transition-transform" style={{ borderLeftColor: f.severity === 'CRITICAL' ? '#dc2626' : f.severity === 'WARNING' ? '#f59e0b' : '#334155' }}>
+                                <div className="flex justify-between items-start mb-6">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-[10px] font-black text-accent uppercase tracking-widest">{f.ref}</span>
+                                            <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{f.category}</span>
+                                        </div>
+                                        <h3 className="text-xl font-black text-primary uppercase">{f.issue}</h3>
+                                    </div>
+                                    <div className={`px-3 py-1 rounded-full text-[10px] font-black italic tracking-widest ${f.severity === 'CRITICAL' ? 'bg-critical/10 text-critical border border-critical/20' : f.severity === 'WARNING' ? 'bg-warn/10 text-warn border border-warn/20' : 'bg-slate-100 text-slate-500 border border-slate-200'}`}>
+                                        {f.severity}
+                                    </div>
+                                </div>
+                                <p className="text-slate-600 text-sm mb-6 font-medium leading-relaxed">{f.description}</p>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <DataPoint label="Current design" value={f.current} />
+                                    <DataPoint label="IBC Requirement" value={f.required} highlight />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <footer className="mt-16 pt-8 border-t border-slate-200 flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-slate-400 italic">
+                        <div>Report: {project.project_name}</div>
+                        <div>IBC Compliance Auditor 2.5</div>
+                    </footer>
+                </div>
+            );
+        }
+
+        function StatCard({ label, count, color, borderColor }) {
+            return (
+                <div className={`glass-card p-6 border-b-4 ${borderColor}`}>
+                    <div className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{label}</div>
+                    <div className={`text-4xl font-black ${color}`}>{count}</div>
+                </div>
+            );
+        }
+
+        function DataPoint({ label, value, highlight }) {
+            return (
+                <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1 italic">{label}</div>
+                    <div className={`text-xs font-bold ${highlight ? 'text-accent' : 'text-primary uppercase'} font-mono`}>{value}</div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+
+</html>

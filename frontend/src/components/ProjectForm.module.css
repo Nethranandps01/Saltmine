@@ -1,0 +1,344 @@
+.wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+}
+
+.header {
+    margin-bottom: 48px;
+}
+
+.headerBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent)15;
+    border: 1px solid var(--accent)30;
+    color: var(--accent2);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 10px;
+}
+
+.title span {
+    color: var(--accent2);
+}
+
+.subtitle {
+    font-size: 14px;
+    color: var(--dim);
+}
+
+/* ── Form sections ── */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 20px;
+}
+
+.sectionNum {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    background: var(--accent)20;
+    color: var(--accent2);
+    padding: 2px 7px;
+    border-radius: 5px;
+}
+
+.sectionBadge {
+    font-size: 10px;
+    color: var(--warn);
+    background: var(--warn)15;
+    border: 1px solid var(--warn)30;
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+.sectionDesc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    margin-top: -8px;
+}
+
+/* ── Grids ── */
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.grid3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 700px) {
+
+    .grid2,
+    .grid3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ── Field ── */
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--dim);
+    letter-spacing: 0.02em;
+}
+
+.hint {
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: 6px;
+}
+
+.input,
+.select {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 9px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 10px 14px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    width: 100%;
+}
+
+.input:focus,
+.select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent)20;
+}
+
+.select {
+    cursor: pointer;
+}
+
+/* ── Stat card ── */
+.statCard {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.statLabel {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.statValue {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1.1;
+}
+
+.statUnit {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+/* ── Slider ── */
+.sliderWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--accent) 0%, var(--accent) calc(var(--val, 50%) * 1%), var(--border2) calc(var(--val, 50%) * 1%));
+    outline: none;
+    cursor: pointer;
+    background: var(--border2);
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent)30;
+    cursor: pointer;
+}
+
+.sliderLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+/* ── Checkbox ── */
+.checkRow {
+    margin-top: 12px;
+}
+
+.checkLabel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.checkHint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: 2px;
+}
+
+/* ── Design grid ── */
+.designGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.designGroup {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+}
+
+.groupTitle {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+/* ── Error ── */
+.error {
+    background: var(--fail)15;
+    border: 1px solid var(--fail)40;
+    color: var(--fail);
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ── Submit ── */
+.submitRow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding-top: 12px;
+}
+
+.submitBtn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--accent) 0%, #6b46f8 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 40px;
+    cursor: pointer;
+    box-shadow: 0 4px 24px var(--accent)40;
+    transition: all 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px var(--accent)50;
+}
+
+.submitBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.submitNote {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid white30;
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+}

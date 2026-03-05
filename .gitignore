@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+node_modules/
+dist/
+build/
+.gemini/
+compliance_results.json
+tmp/
+*.webp
+*.png

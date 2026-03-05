@@ -1,0 +1,280 @@
+{
+    "description": "25 block instance test cases for IBC mapper comparison. Mix of creative names and standard names across all 8 categories.",
+    "test_cases": [
+        {
+            "id": "TC01",
+            "name": "Mars",
+            "enclosure": "Closed",
+            "capacity": 8,
+            "area_sqft": 240,
+            "notes": "Classic creative conference room name — should NOT match on keywords",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC02",
+            "name": "The Hive",
+            "enclosure": "Open",
+            "capacity": 40,
+            "area_sqft": 1200,
+            "notes": "Dense open-plan team area — creative name, keyword-free",
+            "expected_ibc": "Concentrated Business",
+            "expected_load_factor": 50,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC03",
+            "name": "Boiler Room",
+            "enclosure": "Closed",
+            "capacity": 2,
+            "area_sqft": 80,
+            "notes": "Mechanical/utility space — ambiguous name could be confused with office",
+            "expected_ibc": "Storage",
+            "expected_load_factor": 300,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC04",
+            "name": "Nexus",
+            "enclosure": "Closed",
+            "capacity": 12,
+            "area_sqft": 320,
+            "notes": "Creative meeting room name — no keyword hints",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC05",
+            "name": "Orion",
+            "enclosure": "Closed",
+            "capacity": 6,
+            "area_sqft": 180,
+            "notes": "Star/constellation-named small meeting room",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC06",
+            "name": "Think Tank",
+            "enclosure": "Closed",
+            "capacity": 10,
+            "area_sqft": 280,
+            "notes": "Creative collaboration room name",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC07",
+            "name": "The Bridge",
+            "enclosure": "Closed",
+            "capacity": 20,
+            "area_sqft": 500,
+            "notes": "Large creative-name boardroom (Star Trek reference)",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC08",
+            "name": "Open Office",
+            "enclosure": "Open",
+            "capacity": 50,
+            "area_sqft": 5000,
+            "notes": "Standard low-density open desk area — easy baseline",
+            "expected_ibc": "Business Areas",
+            "expected_load_factor": 150,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC09",
+            "name": "Call Center Floor",
+            "enclosure": "Open",
+            "capacity": 100,
+            "area_sqft": 3500,
+            "notes": "Dense operations area — keyword 'call center' present",
+            "expected_ibc": "Concentrated Business",
+            "expected_load_factor": 50,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC10",
+            "name": "Command Center",
+            "enclosure": "Open",
+            "capacity": 60,
+            "area_sqft": 2000,
+            "notes": "High-density NOC-style room — creative but dense",
+            "expected_ibc": "Concentrated Business",
+            "expected_load_factor": 50,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC11",
+            "name": "All-Hands Arena",
+            "enclosure": "Closed",
+            "capacity": 200,
+            "area_sqft": 2800,
+            "notes": "Town-hall / standing assembly space — very high density, no tables",
+            "expected_ibc": "Assembly – Concentrated",
+            "expected_load_factor": 7,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC12",
+            "name": "Auditorium",
+            "enclosure": "Closed",
+            "capacity": 150,
+            "area_sqft": 2000,
+            "notes": "Fixed seating, no tables — standard name",
+            "expected_ibc": "Assembly – Concentrated",
+            "expected_load_factor": 7,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC13",
+            "name": "IT Closet",
+            "enclosure": "Closed",
+            "capacity": 0,
+            "area_sqft": 60,
+            "notes": "Zero occupancy utility space — keyword hint present",
+            "expected_ibc": "Storage",
+            "expected_load_factor": 300,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC14",
+            "name": "MDF Room",
+            "enclosure": "Closed",
+            "capacity": 0,
+            "area_sqft": 40,
+            "notes": "Main Distribution Frame — technical acronym, no keyword",
+            "expected_ibc": "Storage",
+            "expected_load_factor": 300,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC15",
+            "name": "Ark",
+            "enclosure": "Closed",
+            "capacity": 1,
+            "area_sqft": 50,
+            "notes": "Phone booth / focus room — creative name, very small, single occupant",
+            "expected_ibc": "Storage",
+            "expected_load_factor": 300,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC16",
+            "name": "Showroom",
+            "enclosure": "Open",
+            "capacity": 30,
+            "area_sqft": 1800,
+            "notes": "Product display area — standard name",
+            "expected_ibc": "Mercantile",
+            "expected_load_factor": 60,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC17",
+            "name": "The Gallery",
+            "enclosure": "Open",
+            "capacity": 25,
+            "area_sqft": 1500,
+            "notes": "Creative name for a product/sales exhibition area",
+            "expected_ibc": "Mercantile",
+            "expected_load_factor": 60,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC18",
+            "name": "Commercial Kitchen",
+            "enclosure": "Closed",
+            "capacity": 10,
+            "area_sqft": 800,
+            "notes": "Full food-prep kitchen — standard name",
+            "expected_ibc": "Kitchens",
+            "expected_load_factor": 200,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC19",
+            "name": "Breakroom",
+            "enclosure": "Open",
+            "capacity": 20,
+            "area_sqft": 400,
+            "notes": "Pantry / breakroom — NOT a kitchen. Should map to Assembly or Business, not Kitchens.",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC20",
+            "name": "Classroom A",
+            "enclosure": "Closed",
+            "capacity": 30,
+            "area_sqft": 900,
+            "notes": "Standard education room — easy keyword match",
+            "expected_ibc": "Classroom",
+            "expected_load_factor": 20,
+            "difficulty": "easy"
+        },
+        {
+            "id": "TC21",
+            "name": "Learning Lab",
+            "enclosure": "Closed",
+            "capacity": 24,
+            "area_sqft": 720,
+            "notes": "Creative name for a classroom — no 'classroom' keyword",
+            "expected_ibc": "Classroom",
+            "expected_load_factor": 20,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC22",
+            "name": "Bullpen",
+            "enclosure": "Open",
+            "capacity": 30,
+            "area_sqft": 3000,
+            "notes": "Low density open office — colloquial office name",
+            "expected_ibc": "Business Areas",
+            "expected_load_factor": 150,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC23",
+            "name": "War Room",
+            "enclosure": "Closed",
+            "capacity": 15,
+            "area_sqft": 450,
+            "notes": "Intense-sounding name for a large meeting room with tables",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "medium"
+        },
+        {
+            "id": "TC24",
+            "name": "Jupiter",
+            "enclosure": "Closed",
+            "capacity": 4,
+            "area_sqft": 120,
+            "notes": "Planet-named small meeting room — pure creative name",
+            "expected_ibc": "Assembly – Unconcentrated",
+            "expected_load_factor": 15,
+            "difficulty": "hard"
+        },
+        {
+            "id": "TC25",
+            "name": "Den",
+            "enclosure": "Open",
+            "capacity": 8,
+            "area_sqft": 900,
+            "notes": "Low-density informal team workspace — ambiguous creative name",
+            "expected_ibc": "Business Areas",
+            "expected_load_factor": 150,
+            "difficulty": "hard"
+        }
+    ]
+}

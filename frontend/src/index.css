@@ -1,0 +1,53 @@
+/* ─── Salt-Mine Design System ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #080d1a;
+  --bg2:      #0d1525;
+  --surface:  #111d35;
+  --surface2: #1a2847;
+  --border:   #1e3055;
+  --border2:  #263a60;
+  --text:     #e8edf5;
+  --dim:      #8899bb;
+  --muted:    #4a6080;
+  --accent:   #4f7aff;
+  --accent2:  #7b9fff;
+  --pass:     #1fcc6e;
+  --fail:     #ff4545;
+  --warn:     #ffb830;
+  --info:     #38c4f0;
+  --radius:   14px;
+  --shadow:   0 8px 40px #00000055;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+.fade-up { animation: fadeUp 0.4s ease both; }
+.fade-up-1 { animation: fadeUp 0.4s 0.05s ease both; }
+.fade-up-2 { animation: fadeUp 0.4s 0.1s  ease both; }
+.fade-up-3 { animation: fadeUp 0.4s 0.15s ease both; }
+.fade-up-4 { animation: fadeUp 0.4s 0.2s  ease both; }
