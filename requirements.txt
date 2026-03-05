@@ -1,1 +1,7 @@
-google-generativeai>=0.8.0
+fastapi
+uvicorn
+pydantic
+python-dotenv
+google-generativeai
+jinja2
+python-multipart

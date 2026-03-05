@@ -23,6 +23,8 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
 
@@ -478,9 +480,15 @@ app = FastAPI(title="Salt-Mine IBC Compliance API", version="2.0", lifespan=life
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Serve Frontend ────────────────────────────────────────────────────────────
+@app.get("/")
+async def serve_index():
+    return FileResponse(BASE / "frontend" / "index.html")
 
 @app.get("/api/health")
 def health():
